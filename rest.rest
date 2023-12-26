@@ -1,5 +1,5 @@
 GET http://localhost:3000
 
-###
-GET http://localhost:3000/api/users
+### get all posts
+GET http://localhost:3000/api/posts
 
