@@ -13,9 +13,7 @@ postsRouter.get('/api/posts', reqTime, async (req, res) => {
 });
 
 postsRouter.post('/api/posts', validatePost, async (req, res) => {
-  const {
-    title, author, date, body,
-  } = req.body;
+  const { title, author, date, body } = req.body;
 
   const sql = `INSERT INTO posts 
     (title, author, date, body) 

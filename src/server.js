@@ -24,10 +24,13 @@ app.get('/', (req, res) => {
 
 // MAIN ROUTES
 
-// inportuoju rautus
+// inportuoju ROutes
 const postsRouter = require('./routes/postsRouter');
+const authRouter = require('./routes/authRouter');
+
 // panaudoju Routes
 app.use('/', postsRouter);
+app.use('/', authRouter);
 
 // CONNCT
 async function testConnection() {
