@@ -5,7 +5,7 @@ const cors = require('cors');
 const mysql = require('mysql2/promise');
 const { dbConfig } = require('./config');
 const { dbQueryWithData } = require('./helper');
-const { logHello, reqTime, logBody } = require('../middleware');
+const { logHello, logBody, reqTime } = require('./middleware');
 
 const app = express();
 
@@ -26,10 +26,9 @@ app.get('/', (req, res) => {
 // MAIN ROUTES
 
 // inportuoju rautus
-const postsRoutes = require('./routes/postsRoutes');
-
+const postsRouter = require('./routes/postsRouter');
 // panaudoju Routes
-app.use('/', postsRoutes);
+app.use('/', postsRouter);
 
 // CONNCT
 async function testConnection() {

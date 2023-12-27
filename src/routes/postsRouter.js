@@ -1,18 +1,17 @@
 const express = require('express');
-const postsRoutes = express.Router();
-const { reqTime } = require('/src/middleware.js');
+const postsRouter = express.Router();
 const { dbQueryWithData } = require('../helper');
-const { validatePost } = require('../middleware');
+const { reqTime, validatePost } = require('../middleware');
 
 // get all posts   route level middleware
-postsRoutes.get('/api/posts', reqTime, async (req, res) => {
+postsRouter.get('/api/posts', reqTime, async (req, res) => {
   const sql = 'SELECT * FROM posts';
   const [rows, error] = await dbQueryWithData(sql, (argArr = []));
   console.log('error ===', error);
   res.json(rows);
 });
 
-postsRoutes.post('/api/posts', validatePost, async (req, res) => {
+postsRouter.post('/api/posts', validatePost, async (req, res) => {
   const { title, author, date, body } = req.body;
 
   const sql = `INSERT INTO posts 
@@ -29,5 +28,9 @@ postsRoutes.post('/api/posts', validatePost, async (req, res) => {
   res.json(rezObj);
 });
 
+postsRouter.put('/api/posts/:pId', validatePost, async (req, res) => {
+  res.json('update post');
+});
+
 // is exportuoju rautus
-module.exports = postsRoutes;
+module.exports = postsRouter;

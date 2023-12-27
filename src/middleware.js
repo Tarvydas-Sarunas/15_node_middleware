@@ -31,7 +31,7 @@ const validatePost = (req, res, next) => {
   // Validacijos
   const { title, author, date, body } = req.body;
   //  title validacija
-  if (title.trim() === '') {
+  if (title?.trim() === '' || !title) {
     res.status(400).json({
       type: 'validation',
       error: 'require field',
@@ -39,7 +39,7 @@ const validatePost = (req, res, next) => {
     });
     return;
   }
-  if (title.trim().length < 3) {
+  if (title?.trim().length < 3) {
     res.status(400).json({
       type: 'validation',
       error: 'must be 3 or more letters',
@@ -48,7 +48,7 @@ const validatePost = (req, res, next) => {
     return;
   }
   // author validacija
-  if (author.trim() === '') {
+  if (author?.trim() === '') {
     res.status(400).json({
       type: 'validation',
       error: 'require field',
