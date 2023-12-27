@@ -4,8 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 const { dbConfig } = require('./config');
-const { dbQueryWithData } = require('./helper');
-const { logHello, logBody, reqTime } = require('./middleware');
+const { logHello, logBody } = require('./middleware');
 
 const app = express();
 

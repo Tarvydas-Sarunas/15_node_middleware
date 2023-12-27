@@ -1,4 +1,5 @@
 const express = require('express');
+
 const postsRouter = express.Router();
 const { dbQueryWithData } = require('../helper');
 const { reqTime, validatePost } = require('../middleware');
@@ -12,7 +13,9 @@ postsRouter.get('/api/posts', reqTime, async (req, res) => {
 });
 
 postsRouter.post('/api/posts', validatePost, async (req, res) => {
-  const { title, author, date, body } = req.body;
+  const {
+    title, author, date, body,
+  } = req.body;
 
   const sql = `INSERT INTO posts 
     (title, author, date, body) 

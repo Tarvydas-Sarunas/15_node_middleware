@@ -29,7 +29,9 @@ const logBody = (req, res, next) => {
 
 const validatePost = (req, res, next) => {
   // Validacijos
-  const { title, author, date, body } = req.body;
+  const {
+    title, author, date, body,
+  } = req.body;
   //  title validacija
   if (title?.trim() === '' || !title) {
     res.status(400).json({
