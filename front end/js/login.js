@@ -33,6 +33,11 @@ function authLogin(userObj) {
       // kai sekme tai naviguojam i home page
       if (resp.status === 200) {
         alert('Connection is Ok');
+        // issaugau i session storage musu prisijungima
+        console.log('issaugoti sesijos kintamaji');
+        sessionStorage.setItem('loggedIn', userObj.user_name);
+
+        // ir kai visaks ok mane nuveda i index.html
         window.location.href = 'index.html';
       } else if (resp.status === 400) {
         isInvalid();

@@ -1,7 +1,4 @@
 'use strict';
-
-const { trace } = require('../../src/routes/postsRouter');
-
 console.log('front.js file was loaded');
 
 const baseUrl = 'http://localhost:3000/api';
@@ -11,6 +8,16 @@ const els = {
   postContainer: document.getElementById('post-container'),
   errorTop: document.getElementById('error-el-top'),
 };
+
+// Ar esame prisijunge ar ne
+
+let isLoggedIn = sessionStorage.getItem('loggedIn');
+isLoggedIn = Boolean(isLoggedIn);
+
+if (isLoggedIn === false) {
+  window.location.href = 'login.html';
+}
+
 //
 (async () => {
   // iffe body
