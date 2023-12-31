@@ -1,4 +1,7 @@
 'use strict';
+
+const { trace } = require('../../src/routes/postsRouter');
+
 console.log('front.js file was loaded');
 
 const baseUrl = 'http://localhost:3000/api';
@@ -6,13 +9,18 @@ const postsUrl = `${baseUrl}/posts`;
 
 const els = {
   postContainer: document.getElementById('post-container'),
+  errorTop: document.getElementById('error-el-top'),
 };
 //
 (async () => {
   // iffe body
 
-  const postsArr = await getPosts(postsUrl);
+  const [postsArr, error] = await getDataFetch(postsUrl);
   console.log('postsArr ===', postsArr);
+  if (error) {
+    showError('Kazkas negerai');
+    return;
+  }
 
   const firstPostHtml = makeSinglePostHtmlEl(postsArr[0]);
   console.log(firstPostHtml);
@@ -42,11 +50,27 @@ const els = {
 
   function getPosts(url) {
     return fetch(url)
-      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log('resp ===', resp);
+        resp.json();
+      })
       .then((data) => {
         return data;
       })
-      .catch((error) => console.warn('ivyko klaida', error));
+      .catch((error) => {
+        console.warn('ivyko klaida', error);
+        if (error.message === 'Failed to fetch') {
+          showError(error.message);
+        }
+        console.log('error.message ===', error.message);
+      });
+  }
+
+  function showError(msg) {
+    els.errorTop.textContent = msg;
+  }
+  function clearErrors() {
+    els.errorTop.textContent = '';
   }
 
   // posts to html
@@ -76,3 +100,21 @@ const els = {
     return columnEl;
   }
 })();
+
+//  hellper fetch function
+async function getDataFetch(url) {
+  try {
+    const resp = await fetch(url);
+    if (resp.ok === false) {
+      throw {
+        status: resp.status,
+        msg: resp.statusText,
+      };
+    }
+    const data = await resp.json();
+    return [data, null];
+  } catch (error) {
+    console.log('error getDataFetch ===', error);
+    return [null, error];
+  }
+}

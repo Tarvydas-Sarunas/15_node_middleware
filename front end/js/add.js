@@ -17,10 +17,10 @@ els.form.addEventListener('submit', (e) => {
 
   // surinkti inputus i objekta
   const allInput = {
-    title: els.title.value,
-    author: els.author.value,
-    date: els.date.value,
-    body: els.body.value,
+    title: els.title.value.trim(),
+    author: els.author.value.trim(),
+    date: els.date.value.trim(),
+    body: els.body.value.trim(),
   };
   addNewPost(allInput);
 });
@@ -34,8 +34,22 @@ function addNewPost(newPostObj) {
     },
     body: JSON.stringify(newPostObj),
   })
-    .then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((resp) => {
+      // kai sekme tai naviguojam i home page
+      if (resp.status === 201) {
+        // alert('post was created');
+        window.location.href = 'index.html';
+      }
+      return resp.json();
+    })
+    .then((data) => {
+      console.log(data);
+      if (data.type === 'validation') {
+        // handleErrors(data)
+        alert(data.msg);
+        return;
+      }
+    })
     .catch((error) => {
       console.warn('ivyko klaida:', error);
     });

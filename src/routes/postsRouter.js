@@ -6,9 +6,15 @@ const { reqTime, validatePost } = require('../middleware');
 
 // get all posts   route level middleware
 postsRouter.get('/api/posts', reqTime, async (req, res) => {
-  const sql = 'SELECT * FROM posts';
+  const sql = 'SELECT * FROM posts ORDER BY post_id DESC';
   const [rows, error] = await dbQueryWithData(sql, (argArr = []));
   console.log('error ===', error);
+
+  if (error) {
+    res.status(500).json({
+      error: 'something went wrong',
+    });
+  }
   res.json(rows);
 });
 
@@ -26,6 +32,11 @@ postsRouter.post('/api/posts', validatePost, async (req, res) => {
   ]);
 
   console.log('error ===', error);
+
+  if (rezObj.affectedRows === 1) {
+    res.status(201).json({ msg: 'post was created' });
+    return;
+  }
   res.json(rezObj);
 });
 
